@@ -564,8 +564,9 @@ Thanks to all contributors and users for your support!
 
 ### Notes:
 
-- Replace `https://github.com/TiwariRahul16/ascii-art-generator` with the actual URL of your repository.
-- Replace `rahultiwari9168@gmail.com` with your contact email if you want to include it.
+- `https://github.com/TiwariRahul16/ascii-art-generator` 
+
+- `rahultiwari9168@gmail.com`
 
 ## License
 
