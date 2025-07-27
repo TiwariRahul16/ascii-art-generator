@@ -25,6 +25,11 @@
     "url": "https://github.com/TiwariRahul16"
   },
   "license": "MIT",
+    "files": [
+    "index.js",
+    "src/",
+    "src/fonts/"
+  ],
   "devDependencies": {
     "jest": "^29.7.0"
   },
