@@ -1,4 +1,12 @@
+# Tests
 tests/
+src/tests/
 *.test.js
+
+# Node modules and environment
 node_modules/
+.env
+
+# OS generated files
 .DS_Store
+Thumbs.db
