@@ -4,343 +4,281 @@
 [![Downloads](https://img.shields.io/npm/dt/ascii-art-generator?style=flat-square)](https://www.npmjs.com/package/ascii-art-generator)
 [![License: MIT](https://img.shields.io/npm/l/ascii-art-generator?style=flat-square)](./LICENSE)
 
+# ASCII Art Generator 🎨
 
-**ASCII Art Generator** is a lightweight npm package that converts plain text and image into beautiful ASCII art using customizable fonts and image into ascii art.
+**ASCII Art Generator** is a powerful, lightweight npm package that converts plain text and images into beautiful, customizable ASCII art. 
 
----
-
-## Features
-
-- Generate ASCII art from text.
-- Generate ASCII art from image.
-- Support for multiple fonts.
-- Graceful handling of unsupported characters.
-- Extendable to add custom fonts.
+**🎉 NEW IN VERSION 2.0.0:** Full **React** and **Browser** support! You can now generate image-to-ASCII art directly on the client-side using HTML5 Canvas—**zero backend required!** We also added new text design variants (Gradient & Glow) and a sleek new `navbar` font.
 
 ---
 
-## Installation
+## ✨ Features
 
-To install the package, run the following command:
+- **React & Next.js Components:** Plug-and-play `<AsciiImage />` and `<AsciiText />`.
+- **Browser Native:** Process images instantly on the client side. No `sharp` or backend API needed!
+- **High-Quality Facial Recognition:** Advanced adaptive contrast and gamma correction ensure human faces look crisp, even at small resolutions (perfect for profile pictures).
+- **Advanced Text Designs:** Support for custom letter spacing, CSS gradients, and cyberpunk neon glows.
+- **Node.js Backend Support:** Still includes the classic high-performance Node.js logic using `sharp`.
+- **Multiple Custom Fonts:** Includes block-fonts, classic terminal fonts, and currency-styled fonts.
+
+---
+
+## 📦 Installation
 
 ```bash
 npm install ascii-art-generator
 ```
-## Usage
+(Note: sharp is still installed for backend users, but the browser and React exports will automatically bypass it to prevent bundling errors).
 
+---
+## Usage
 You can import the necessary functions from the package as shown below:
 
 ```bash
-const { generateArt, convertImageToAscii } = require("ascii-art-generator");
+import { AsciiText, AsciiImage } from "ascii-art-generator/react";
 ```
+---
 ## Generating ASCII Art of text
 
-To generate ASCII art from a string of text using the default font:
+To generate ASCII art from a string of text using the any font:
 
 ```bash
-const { generateArt} = require('ascii-art-generator');
+//just import and use.
+
+import { AsciiText} from "ascii-art-generator/react";
 
 // Text conversion
-
-const art = generateArt(text, font);
-console.log(art);
+  
+      <AsciiText 
+        text="PRO" 
+        font="rupee" 
+        color="#0070f3" 
+        variant="gradient"
+        letterSpacing="" 
+      />
 ```
+
+---
 ## Generating ASCII Art of image
  
 To generate ASCII art of a image using local upload or link of image:
 
 ```bash
-const { convertImageToAscii} = require('ascii-art-generator');
+//just import and use.
+
+import {AsciiImage } from "ascii-art-generator/react";
 
 // Image conversion
 
-const asciiImage = await convertImageToAscii(imagePath, 100);
-console.log(asciiImage);
+      <AsciiImage 
+        src="https://avatars.githubusercontent.com/u/9919?v=4" 
+        width={100} 
+        color="#333"
+        style={{ borderRadius: "50%" }}
+      />
 ```
+## 1. Usage: React & Next.js (Modern Frontend)
 
-## Listing Available Fonts
+(Note for Next.js App Router users: Ensure you add "use client" at the top of your file since this uses the browser Canvas).
 
-You can list all available fonts in the package:
 
 ```bash
-const fonts = listFonts();
-console.log(fonts); // Output: ['default', 'dollar','hash','sign','star','rupee','percent']
-```
-## Using a Different Font
+"use client";
+import { AsciiText, AsciiImage } from "ascii-art-generator/react";
 
-You can also use a different font for generating ASCII art:
+export default function Dashboard() {
+  return (
+    <div style={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
+      
+      {/* 1. Profile Picture (Image to ASCII) */}
+      <AsciiImage 
+        src="https://avatars.githubusercontent.com/u/9919?v=4" 
+        width={100} 
+        color="#333"
+        style={{ borderRadius: "50%" }}
+      />
+      
+      {/* 2. Cyberpunk Neon Username */}
+      <AsciiText 
+        text="HACKER" 
+        font="navbar" 
+        color="#00ff00" 
+        variant="glow" 
+      />
+      
+      {/* 3. Gradient Text with custom spacing */}
+      <AsciiText 
+        text="PRO" 
+        font="rupee" 
+        color="#0070f3" 
+        variant="gradient"
+        letterSpacing="" 
+      />
+      
+    </div>
+  );
+};
+```
+---
+## 2. Usage: Vanilla JavaScript & HTML
+
+If you are using Vite, Webpack, or plain HTML/JS, you can render ASCII art directly into any DOM element.
 
 ```bash
-const { generateArt} = require('ascii-art-generator');
+// In html file like index.html
 
-// Text conversion
+<div id="profile-pic" style="border-radius: 50%; border: 2px solid black;"></div>
+<div id="username"></div>
 
-// const art = generateArt(text, font_name);
-const art = generateArt(hello, dollar);
-console.log(art);
+//In javascript file like main.js without script tag
+
+<script type="module">
+  import { renderAsciiImage, renderAsciiText } from "ascii-art-generator/browser";
+
+  // Replaces the element with ASCII Image Art
+  renderAsciiImage({
+    elementId: "profile-pic",
+    src: "https://your-image-url.com/photo.jpg",
+    width: 100,
+    color: "#000"
+  });
+
+  // Replaces the element with ASCII Text Art
+  renderAsciiText({
+    elementId: "username",
+    text: "Rahul",
+    font: "navbar",
+    color: "#ff0080"
+  });
+</script>
 ```
 
-## How to use in node.js app with ejs
+---
+## 3. Usage: Node.js (Classic Backend / CLI)
 
-### Backend in express
+If you are using Node.js on a server, you can import the core functions to generate ASCII strings directly in the terminal or your backend.
+
 ```bash
+const { generateArt, convertImageToAscii, listFonts } = require("ascii-art-generator");
+
+async function run() {
+  // 1. Generate Text (Optional 3rd parameter for letter spacing)
+  const textArt = generateArt("HELLO", "star", "  ");
+  console.log(textArt);
+
+  // 2. Generate Image (Requires local path or URL)
+  const imageArt = await convertImageToAscii("./local-photo.jpg", 100);
+  console.log(imageArt);
+  
+  // 3. List available fonts
+  console.log(listFonts()); 
+}
+
+run();
+```
+
+---
+
+# ⚙️ Advanced Backend Guides (Express & Next.js Server)
+
+---
+
+<details>
+<summary><b>Click to expand: How to use with Express.js & EJS</b></summary>
+
+### 📁 Backend (`server.js`)
+
+```js
 const express = require("express");
-const {generateArt, convertImageToAscii } = require("asciiart");
+const { generateArt, convertImageToAscii } = require("ascii-art-generator");
 const path = require("path");
+
 const app = express();
 
-// Serve static files (e.g., images) from the "public" folder
 app.use(express.static(path.join(__dirname, "public")));
+app.set("view engine", "ejs");
 
-// Set view engine for dynamic HTML
-app.set("views", path.join(__dirname, "views")); // Specify the folder containing templates
-app.set("view engine", "ejs"); // Use EJS as the templating engine
-
-
-// Route for the home page
 app.get("/", async (req, res) => {
   try {
-    // Convert the image to ASCII
-    const imagePath = path.join(__dirname, "images", "img.jpg");
-    const asciiArt = await convertImageToAscii(imagePath,100);
-    const textArt = await generateArt("Hello");
+    const imagePath = path.join(__dirname, "public", "img.jpg");
+    const asciiArt = await convertImageToAscii(imagePath, 100);
+    const textArt = generateArt("Hello", "star");
 
-    // Render the ASCII art in the browser
-    res.render("index", { asciiArt,textArt });
+    res.render("index", { asciiArt, textArt });
   } catch (error) {
-    res.status(500).send(`Error generating ASCII art: ${error.message}`);
+    res.status(500).send(`Error: ${error.message}`);
   }
 });
 
-// Start the server
-const PORT = 3000;
-app.listen(PORT, () => {
-  console.log(`Server running at http://localhost:${PORT}`);
-});
-
+app.listen(3000, () => console.log("Server running on port 3000"));
 ```
 
-### Frontend using index.ejs
+---
 
-```bash
-// views/index.ejs
+### 🖥️ Frontend (`views/index.ejs`)
 
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>ASCII Art Viewer</title>
-  <style>
-    body {
-      margin: 0;
-      padding: 2rem;
-      font-family: monospace;
-      background: #f2f2f2;
-      color: #000;
-      text-align: center;
-    }
-
-    h1 {
-      margin-bottom: 2rem;
-    }
-
-    .ascii-text {
-      margin-top: 2rem;
-      white-space: pre;
-      font-size: 10px;
-      line-height: 10px;
-    }
-  </style>
-  <style>
+```html
+<style>
   .ascii-profile {
     display: inline-block;
     font-family: monospace;
-    font-size: 2px;     
-   /* manage image using font-size and line-height like contain and cover we use in image*/
+    font-size: 2px;
     line-height: 2px;
     width: 100px;
     height: 100px;
-    color: #000;
-    background-color: #fff;
     overflow: hidden;
     border-radius: 50%;
   }
-
-  .ascii-profile pre {
-    margin: 0;
-  }
 </style>
 
-</head>
-<body>
-  <h1>ASCII Profile Pic</h1>
+<div class="ascii-profile">
+  <pre><%= asciiArt %></pre>
+</div>
 
-  <div class="ascii-profile">
-    <pre><%= asciiArt %></pre>
-  </div>
-
-  <div class="ascii-text">
-    <pre><%= textArt %></pre>
-  </div>
-</body>
-</html>
+<pre><%= textArt %></pre>
 ```
 
-## How to use in React with backend in express
+</details>
 
-### backend in express
+---
 
-```bash
-// server.js
+<details>
+<summary><b>Click to expand: How to use as a Next.js Server API Route</b></summary>
 
-const express = require("express");
-const {generateArt,convertImageToAscii} = require("ascii-art-generator");
-const cors = require("cors");
+### ⚠️ Important: Update `next.config.js`
 
-const app = express();
+If your API route uses `sharp` internally, configure Webpack to externalize it:
 
-// Enable CORS
-app.use(cors());
-
-// Route: Get ASCII text (with optional font)
-app.get("/api/text", (req, res) => {
-  const text = "Hello";
-  const fontName = " rupee";
-
-  try {
-    const font = getFont(fontName); // Load the correct font
-    const art = generateArt(text, font); // Generate ASCII art
-    res.json({ art });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-});
-
-// Route: Get ASCII image
-app.get("/api/image", async (req, res) => {
-  try {
-    const ascii = await convertImageToAscii(imagePath, 100); // Default width = 100
-    res.json({ ascii });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-});
-
-
-// Start the server
-const PORT = 5000;
-app.listen(PORT, () => {
-  console.log(`ASCII API is running at http://localhost:${PORT}`);
-});
-
-
-```
- #### Frontend in React
-
-```bash
-// app.js
-
-import React, { useEffect, useState } from "react";
-import axios from "axios";
-import "./App.css";
-
-function App() {
-  const [asciiImage, setAsciiImage] = useState("");
-  const [asciiText, setAsciiText] = useState("");
-
-  useEffect(() => {
-    // Fetch ASCII art
-    axios.get("http://localhost:5000/api/image").then((res) => {
-      setAsciiImage(res.data.ascii);
-    });
-
-    axios.get("http://localhost:5000/api/text?text=HELLO").then((res) => {
-      setAsciiText(res.data.art);
-    });
-  }, []);
-
-  return (
-    <div className="App">
-      <h1>ASCII Profile Viewer</h1>
-      <div className="ascii-profile">
-        <pre>{asciiImage}</pre>
-      </div>
-      <div className="ascii-text">
-        <pre>{asciiText}</pre>
-      </div>
-    </div>
-  );
-}
-
-export default App;
-
-```
-
-
-## How to use in next.js
-
-#### First install dependency in nextjs root folder
-```bash
-npm install sharp
-```
- #### Second step use this in next.config
- ```bash
-/** @type {import('next').NextConfig} */
+```js
 const nextConfig = {
   webpack(config, { isServer }) {
     if (isServer) {
       config.externals = config.externals || [];
-      config.externals.push('sharp'); // prevent bundling native module
+      config.externals.push("sharp");
     }
     return config;
-  },
-  experimental: {
-    serverActions: true, // optional, if you're using server actions
   },
 };
 
 export default nextConfig;
-
- ```
-
-#### How to write api..
-```bash
-// api/ascii/route.js
-
-export const runtime = 'nodejs'; // 👈 Required 
-
-import { generateArt, convertImageToAscii } from "ascii-art-generator";
-
-
-export async function GET() {
-
-  const nameAscii = generateArt("Rahul");
-
-  const imageAscii = await convertImageToAscii(imagePath, 50);
-}
 ```
 
- #### Complete api.
+---
 
-```bash
-export const runtime = 'nodejs'; // 👈 Required 
+### 📁 API Route (`app/api/ascii/route.js`)
+
+```js
+export const runtime = "nodejs";
 
 import { generateArt, convertImageToAscii } from "ascii-art-generator";
 import path from "path";
 import { NextResponse } from "next/server";
-import { promises as fs } from "fs";
 
 export async function GET() {
   const nameAscii = generateArt("Hello");
-
   const imagePath = path.join(process.cwd(), "public", "img.jpg");
 
   try {
-    // Ensure file exists
-    await fs.access(imagePath);
-
     const imageAscii = await convertImageToAscii(imagePath, 50);
 
     return NextResponse.json({
@@ -349,227 +287,167 @@ export async function GET() {
     });
   } catch (error) {
     return NextResponse.json(
-      { error: "Failed to load image or convert to ASCII." },
+      { error: "Failed to convert" },
       { status: 500 }
     );
   }
 }
+```
+
+</details>
+
+---
+## API Reference
+
+### React Components (`ascii-art-generator/react`)
+
+---
+
+### `<AsciiImage />` Props
+
+| Prop       | Type   | Default | Description |
+|------------|--------|----------|-------------|
+| `src`      | string | **Required** | The URL or base64 path of the image. |
+| `width`    | number | `80` | The character width of the generated art. |
+| `color`    | string | `"#000"` | The text color of the ASCII characters. |
+| `style`    | object | `{}` | Standard React style object (e.g. `borderRadius`). |
+| `className`| string | `""` | Optional CSS class. |
+
+---
+
+## `<AsciiText />` Props
+
+| Prop            | Type   | Default     | Description |
+|-----------------|--------|-------------|-------------|
+| `text`          | string | **Required** | The string to convert to ASCII. |
+| `font`          | string | `"default"` | The name of the font to use. |
+| `variant`       | string | `"normal"`  | Design style: `"normal"`, `"gradient"`, or `"glow"`. |
+| `letterSpacing` | string | `" "`       | Space added between characters. |
+
+---
+## 🔠 Available Text Fonts
+
+You can pass these string values into the `font` prop:
+
+| Font Name | Description |
+|-----------|------------|
+| `navbar` | **NEW!** Sleek 3-line block font perfect for UI elements |
+| `default` | Classic 5-line terminal font |
+| `rupee` | Constructed using ₹ symbols |
+| `dollar` | Constructed using $ symbols |
+| `percent` | Constructed using % symbols |
+| `star` | Constructed using * symbols |
+| `hash` | Constructed using # symbols |
+| `atsign` | Constructed using @ symbols |
+| `another` | Constructed using @ symbols |
+
+---
+
+```Note : In fonts another and atsign are same font ```
+
+---
+
+## 🚨 Error Handling
+
+The package gracefully handles errors to prevent your application from crashing.
+
+### 🖼️ Client-Side Image Failures
+
+If an image URL strictly blocks CORS, the `<AsciiImage />` component will safely render:
 
 ```
- #### How to display in browser by fatching api.
-
-```bash
-// page.js
-
-"use client";
-import { useEffect, useState } from "react";
-
-export default function Home() {
-  const [asciiText, setAsciiText] = useState("");
-  const [asciiImage, setAsciiImage] = useState("");
-
-  useEffect(() => {
-    fetch("/api/ascii")
-      .then((res) => res.json())
-      .then((data) => {
-        setAsciiText(data.name);
-        setAsciiImage(data.image);
-      });
-  }, []);
-
-  return (
-    <div className="min-h-screen p-8 font-mono bg-white text-black">
-      <h1 className="text-xl mb-6 text-white">ASCII Art Profile Preview</h1>
-
-      <pre className="whitespace-pre-wrap text-sm mb-10">
-        {asciiText || "Loading ASCII text..."}
-      </pre>
-
-      <pre className="whitespace-pre-wrap text-[6px] leading-[6px]">
-        {asciiImage || "Loading ASCII image..."}
-      </pre>
-    </div>
-  );
-}
-
+Failed to load ASCII image
 ```
-## API Documentation
 
-```**generateArt(text: string, font: FontObject): string**```
+This prevents React from crashing and keeps your UI stable.
 
-Generates ASCII art from the provided text using the specified font.
+---
 
-- Parameters:
-  - text (string): The text to convert into ASCII art.
-  - font (object): The font object containing character definitions and height.
-- Returns:
-   - A string representing the ASCII art.
+### 🧾 Missing Inputs
 
-```listFonts(): string[]```
+Node.js functions will throw informative errors if required parameters are missing.
 
-Lists all available fonts.
+Examples:
 
-- Returns:
-   - An array of font names (e.g., ["default", "another","rupee", "percent", "atsign", "star", "doller", "hash"]).
+- No text provided to `generateArt()`
+- No image path or URL provided to `convertImageToAscii()`
 
-```getFont(fontName: string): FontObject```
+This ensures developers immediately understand what went wrong.
 
-Retrieves the font object by its name.
+---
 
-- Parameters:
-  - **fontName (string)**: The name of the font.
-- Returns:
-   - The corresponding font object.
+### 🔤 Invalid Fonts
 
-```**ConvertImageToAscii(image_path,100)**```
-``` // 100 default width ```
+If an unrecognized font string is passed:
 
-Generates ASCII art from the provided image.
+- The package will either safely fall back to a default font  
+**or**
+- Throw a clear, descriptive error message
 
-- Parameters:
-  - image_path (string): The image to convert into ASCII art.
-  - width: The width object to maintain character size.
-- Returns:
-   - A string representing the ASCII art.
+This prevents silent failures and makes debugging easy.
 
-```bash
-npm install ascii-art-generator
-```
-## Fonts
+---
+## 🤝 Contributing
 
-The package includes the following fonts by default:
+Contributions are welcome and greatly appreciated!
 
-- default
-- another
-- rupee 
-- percent 
-- atsign 
-- star 
-- doller
-- hash
+### How to Contribute
 
-```Note : In fonts another and atsisn are same font ```
+1. **Fork** the repository  
+2. **Create a new branch**
 
-You can add your own fonts by creating JSON files with character definitions. Each font file should have the following structure:
+   ```bash
+   git checkout -b feature/your-feature-name
+   ```
 
-```bash
-  "A": [
-    "  A  ",
-    " A A ",
-    "AAAAA",
-    "A   A",
-    "A   A"
-  ],
-  .............
+3. **Commit your changes**
 
-```
-```bash
-      "A": [
-        "  @@@   ",
-        " @   @  ",
-        "@ @@@ @ ",
-        "@     @ ",
-        "@     @ "
-      ],
-  .............
+   ```bash
+   git commit -m "Add a new feature"
+   ```
 
-```
-```bash
-      "A": [
-        "  ₹₹₹  ",
-        " ₹   ₹ ",
-        "₹ ₹₹₹ ₹",
-        "₹     ₹",
-        "₹     ₹"
-      ],
-  .............
+4. **Push to your branch**
 
-```
-```bash
-      "A": [
-        "  %%%  ",
-        " %   % ",
-        "% %%% %",
-        "%     %",
-        "%     %"
-      ],
-  .............
+   ```bash
+   git push origin feature/your-feature-name
+   ```
 
-```
-```bash
-    "A": [
-      "  ***  ",
-      " *   * ",
-      "* *** *",
-      "*     *",
-      "*     *"
-    ],
-  .............
+5. **Submit a Pull Request**
 
-```
-```bash
-      "A": [
-        "  $$$  ",
-        " $   $ ",
-        "$ $$$ $",
-        "$     $",
-        "$     $"
-      ],
-  .............
+---
 
-```
-```bash
-      "A": [
-        "  ###  ",
-        " #   # ",
-        "# ### #",
-        "#     #",
-        "#     #"
-      ],
-  .............
+### 💡 Guidelines
 
-```
-## Error Handling
+- Write clean, readable code
+- Follow existing project structure
+- Add comments where necessary
+- Update documentation if your change affects usage
+- Test your changes before submitting
 
-The package throws informative errors for:
+Thank you for helping improve **ASCII Art Generator** 🎨
 
-- **Missing text input**: If no text is provided to generateArt(), it will throw an error.
-- **Missing image input**: If no text is provided to generateArt(), it will throw an error.
-- **Unsupported fonts**: If an unsupported font is used, it will throw an error.
-- **Invalid font names**: If you pass a font name that does not exist, it will throw an error.
-
-## Contributing
-
-Contributions are welcome! Please follow these steps to contribute:
-
-1. Fork the repository.
-2. Create a new branch: git checkout -b feature/your-feature-name.
-3. Commit your changes: git commit -m 'Add a new feature'.
-4. Push to the branch: git push origin feature/your-feature-name.
-5. Submit a pull request.
+---
 
 ## License
 
 This project is licensed under the MIT License.
 
+---
 ## Feedback and Support
 
-If you encounter any issues or have suggestions, feel free to open an issue on the GitHub repository or contact me at rahultiwari9168@gmail.com.
+If you encounter any issues or have suggestions, feel free to open an issue on the GitHub repository or contact me at https://github.com/TiwariRahul16/
 
+---
 ## Acknowledgments
 
 Thanks to all contributors and users for your support!
 
-```bash
-
 ### Notes:
 
-- `https://github.com/TiwariRahul16/ascii-art-generator` 
-
-- `rahultiwari9168@gmail.com`
+- `https://github.com/TiwariRahul16/ascii-art-generator`
 
 ## License
 
--This project is licensed under the [MIT License](./LICENSE). You are free to use, modify, and distribute this software in accordance with the terms of the license.
+- This project is licensed under the [MIT License](./LICENSE). You are free to use, modify, and distribute this software in accordance with the terms of the license.
 
-```
+---
