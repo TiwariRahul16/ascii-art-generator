@@ -1,39 +1,55 @@
 {
   "name": "ascii-art-generator",
-  "version": "1.0.0",
-  "description": "A powerful ASCII art generator that converts text and images to clean, customizable ASCII output.",
+  "version": "2.0.0",
+  "description": "A powerful ASCII art generator that converts text and images to clean, customizable ASCII output. Now with React and Browser support!",
   "main": "index.js",
+  "exports": {
+    ".": "./index.js",
+    "./react": "./react/index.js",
+    "./browser": "./browser/index.js"
+  },
   "directories": {
     "test": "tests"
   },
   "scripts": {
     "test": "jest"
   },
-  "keywords": [
-    "ascii",
+"keywords": [
+    "ascii-art-generator",
     "ascii-art",
     "image-to-ascii",
     "text-to-ascii",
     "ascii-generator",
-    "sharp",
-    "art",
-    "cli",
-    "nodejs"
+    "react-ascii",
+    "ascii",
+    "canvas",
+    "browser",
+    "react",
+    "frontend"
   ],
   "author": {
     "name": "Rahul Tiwari",
     "url": "https://github.com/TiwariRahul16"
   },
   "license": "MIT",
-    "files": [
+  "files": [
     "index.js",
     "src/",
-    "src/fonts/"
+    "react/",
+    "browser/"
   ],
   "devDependencies": {
     "jest": "^29.7.0"
   },
   "dependencies": {
     "sharp": "^0.33.5"
+  },
+  "peerDependencies": {
+    "react": ">=16.8.0"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    }
   }
 }
